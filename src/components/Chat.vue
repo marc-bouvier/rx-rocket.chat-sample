@@ -12,26 +12,39 @@
     </div>
     <div>Rocket.Chat websocket URL : {{webSocketUrl}}
     </div>
-    <div>UserId : <input type="text" v-model="userId" :disabled="loggedIn"/>
-      Auth Token : <input type="text" v-model="authToken" :disabled="loggedIn"/>
-      <button v-if="!loggedIn" v-on:click="login">Login</button>
-    </div>
-    <div>Username : <input id="login" type="text" v-model="username" :disabled="loggedIn"/>
-      Password : <input id="password" type="password" v-model="password" :disabled="loggedIn"/>
-      <button v-if="!loggedIn" v-on:click="loginBasic">Login</button>
-    </div>
-    <div>Room id (default sandbox) : <input type="text" v-model="roomId"/>
-      <button v-if="!roomConnected" v-on:click="connectRoom">Subscribe to room</button>
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <th>Token auth</th>
+          <td>UserId : <input type="text" v-model="userId" :disabled="loggedIn"/></td>
+        <td>Auth Token : <input type="text" v-model="authToken" :disabled="loggedIn"/></td>
+        <td><button v-if="!loggedIn" v-on:click="login">Login</button></td>
+        </tr>
+        <tr>
+          <th>Basic auth</th>
+          <td>Username : <input id="login" type="text" v-model="username" :disabled="loggedIn"/></td>
+        <td>Password : <input id="password" type="password" v-model="password" :disabled="loggedIn"/></td>
+        <td><button v-if="!loggedIn" v-on:click="loginBasic">Login</button></td>
+        </tr>
+        <tr>
+          <th>Connect to room</th>
+          <td>Room id (default sandbox) : <input type="text" v-model="roomId"/></td>
+          <td><button v-if="!roomConnected" v-on:click="connectRoom">Subscribe to room</button></td>
+        </tr>
+      </tbody>
+    </table>
     <div>
-      Send message : <input type="text" v-on:keyup.enter="sendMessage" v-model="newMessage"/>
-      <button v-on:click="sendMessage">Send</button>
-    </div>
-    <div id="messages" style="max-height: 400px;overflow-y: scroll">
-      <div class="message" v-for="(message,messageIndex) in messages" :key="messageIndex">
-        <b v-if="formatMessage (message).formattedDate">
-          {{formatMessage (message).formattedDate}}</b>
-        <code>{{message}}</code>
+      <h2>Messages</h2>
+      <div>
+        Send message : <input type="text" v-on:keyup.enter="sendMessage" v-model="newMessage"/>
+        <button v-on:click="sendMessage">Send</button>
+      </div>
+      <div id="messages" style="max-height: 400px;overflow-y: scroll">
+        <div class="message" v-for="(message,messageIndex) in messages" :key="messageIndex">
+          <b v-if="formatMessage (message).formattedDate">
+            {{formatMessage (message).formattedDate}}</b>
+          <code>{{message}}</code>
+        </div>
       </div>
     </div>
   </div>
