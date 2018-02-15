@@ -16,6 +16,10 @@
       Auth Token : <input type="text" v-model="authToken" :disabled="loggedIn"/>
       <button v-if="!loggedIn" v-on:click="login">Login</button>
     </div>
+    <div>Username : <input id="login" type="text" v-model="username" :disabled="loggedIn"/>
+      Password : <input id="password" type="password" v-model="password" :disabled="loggedIn"/>
+      <button v-if="!loggedIn" v-on:click="loginBasic">Login</button>
+    </div>
     <div>Room id (default sandbox) : <input type="text" v-model="roomId"/>
       <button v-if="!roomConnected" v-on:click="connectRoom">Subscribe to room</button>
     </div>
@@ -46,6 +50,8 @@
         loggedIn: false,
         userId: '',
         authToken: '',
+        username:'',
+        password:'',
         roomName: 'sandbox',
         roomId: 'Drjw54ftqGa4antMW',
         roomConnected: false,
@@ -74,6 +80,20 @@
       login() {
         if (!this.loggedIn) {
           api.loginWithAuthToken (this.authToken)
+            .subscribe (apiEvent => {
+              if (apiEvent.msg === 'result') {
+                // success
+                this.messages.push (apiEvent.msg)
+                this.loggedIn = true
+              }
+            }, (error) => {
+              this.errors.push (error)
+            })
+        }
+      },
+      loginBasic() {
+        if (!this.loggedIn) {
+          api.login (this.username,this.password)
             .subscribe (apiEvent => {
               if (apiEvent.msg === 'result') {
                 // success
