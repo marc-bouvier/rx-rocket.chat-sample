@@ -14,23 +14,30 @@
     </div>
     <table>
       <tbody>
-        <tr>
-          <th>Token auth</th>
-          <td>UserId : <input type="text" v-model="userId" :disabled="loggedIn"/></td>
+      <tr>
+        <th>Token auth</th>
+        <td>UserId : <input type="text" v-model="userId" :disabled="loggedIn"/></td>
         <td>Auth Token : <input type="text" v-model="authToken" :disabled="loggedIn"/></td>
-        <td><button v-if="!loggedIn" v-on:click="login">Login</button></td>
-        </tr>
-        <tr>
-          <th>Basic auth</th>
-          <td>Username : <input id="login" type="text" v-model="username" :disabled="loggedIn"/></td>
-        <td>Password : <input id="password" type="password" v-model="password" :disabled="loggedIn"/></td>
-        <td><button v-if="!loggedIn" v-on:click="loginBasic">Login</button></td>
-        </tr>
-        <tr>
-          <th>Connect to room</th>
-          <td>Room id (default sandbox) : <input type="text" v-model="roomId"/></td>
-          <td><button v-if="!roomConnected" v-on:click="connectRoom">Subscribe to room</button></td>
-        </tr>
+        <td>
+          <button v-if="!loggedIn" v-on:click="login">Login</button>
+        </td>
+      </tr>
+      <tr>
+        <th>Basic auth</th>
+        <td>Username : <input id="login" type="text" v-model="username" :disabled="loggedIn"/></td>
+        <td>Password : <input id="password" type="password" v-model="password"
+                              :disabled="loggedIn"/></td>
+        <td>
+          <button v-if="!loggedIn" v-on:click="loginBasic">Login</button>
+        </td>
+      </tr>
+      <tr>
+        <th>Connect to room</th>
+        <td>Room id (default sandbox) : <input type="text" v-model="roomId"/></td>
+        <td>
+          <button v-if="!roomConnected" v-on:click="connectRoom">Subscribe to room</button>
+        </td>
+      </tr>
       </tbody>
     </table>
     <div>
@@ -46,6 +53,10 @@
           <code>{{message}}</code>
         </div>
       </div>
+    </div>
+    <div>
+      <button @click="decoWs">Deco Ws</button>
+      <button @click="recoWs">Reco Ws</button>
     </div>
   </div>
 </template>
@@ -63,8 +74,8 @@
         loggedIn: false,
         userId: '',
         authToken: '',
-        username:'',
-        password:'',
+        username: '',
+        password: '',
         roomName: 'sandbox',
         roomId: 'Drjw54ftqGa4antMW',
         roomConnected: false,
@@ -90,6 +101,11 @@
         )
     },
     methods: {
+      decoWs() {
+
+      },
+      recoWs() {
+      },
       login() {
         if (!this.loggedIn) {
           api.loginWithAuthToken (this.authToken)
@@ -106,7 +122,7 @@
       },
       loginBasic() {
         if (!this.loggedIn) {
-          api.login (this.username,this.password)
+          api.login (this.username, this.password)
             .subscribe (apiEvent => {
               if (apiEvent.msg === 'result') {
                 // success
