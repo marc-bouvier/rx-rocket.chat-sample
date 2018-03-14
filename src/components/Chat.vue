@@ -102,9 +102,29 @@
     },
     methods: {
       decoWs() {
-
+        let obj = api.webSocket
+        for (var m in obj) {
+          if (typeof obj[m] === "function") {
+            console.log (m.toString ())
+          }
+        }
+        api.webSocket.complete ()
       },
       recoWs() {
+        api = rcApi.connectToRocketChat (this.webSocketUrl)
+        api.onError (error => this.errors.push (error))
+        api.onCompletion (() => console.log ("finished"))
+        api.onMessage (message => {
+          this.messages.push (message)
+        })
+        api.connectToServer ()
+          .subscribe (() => {
+              api.keepAlive () // Ping Server
+            },
+            (error) => {
+              this.errors.push (error)
+            }
+          )
       },
       login() {
         if (!this.loggedIn) {
