@@ -93,6 +93,9 @@
       api.onMessage (message => {
         this.messages.push (message)
       })
+      api.onClose (() => {
+        console.log ('closed')
+      })
       api.connectToServer ()
         .subscribe (() => {
             api.keepAlive () // Ping Server
