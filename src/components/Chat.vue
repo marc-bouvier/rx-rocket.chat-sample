@@ -81,7 +81,9 @@
         roomConnected: false,
         newMessage: '',
         messages: [],
-        errors: []
+        errors: [],
+        lastSync: new Date ().getTime (),
+        syncInterval: 30000
       }
     },
     mounted() {
@@ -99,6 +101,17 @@
             this.errors.push (error)
           }
         )
+
+      // vérification pour mobile devices
+      setInterval (function () {
+          let now = new Date ().getTime ()
+          console.log ('verify sync')
+          if ((now - this.lastSync) > this.syncInterval) {
+            console.log ('out of sync')
+            this.syncPage ()
+          }
+        }, 2000
+      ) // vérifie toutes les 1 sec que 30 sec ont passé depuis la dernière synchro
     },
     methods: {
       decoWs() {
@@ -193,6 +206,15 @@
           result.formattedDate = new Date (message.fields.args[0].ts.$date)
         }
         return result
+      },
+      syncPage() {
+        this.lastSync = new Date ().getTime ()
+        console.log ('Synch')
+        if (this.connectedToApi && api && api.webSocket !== null && api.webSocket.socket == null) {
+          // on log et on redémarre la fenêtre
+          console.log ('reload')
+          window.location.reload ()
+        }
       }
     }
   }
