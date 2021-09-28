@@ -3,6 +3,7 @@
 A basic showcase of a chat based on RocketChat websocket API and VueJs 2.
 
 It is a companion repository to the blog post : https://baldir.fr/posts/simple-chat-with-vue-js-and-rocket-chat/ 
+Live demo : https://marc-bouvier.github.io/rx-rocket.chat-sample/#/
 
 ## Build Setup
 
